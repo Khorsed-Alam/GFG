@@ -4,10 +4,10 @@ using namespace std;
 void check_prime(int n){
     for(int i=2;i<=n;i++){
         if(n%i==0){
-            cout<<"Prime nember";
+            cout<<"Not Prime nember";
             break;
         }else{
-            cout<<"Not Prime Number";
+            cout<<"Prime Number";
             break;
         }
     }
