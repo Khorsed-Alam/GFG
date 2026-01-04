@@ -11,5 +11,6 @@ int main(){
 
     cout<<"First elemnet of array is: "<<arr.front()<<endl;
     cout<<"Last element of array is : "<<arr.back()<<endl;
+    cout<<"Element at index 1 is: "<<arr.at(1);
     return 0;
 }
