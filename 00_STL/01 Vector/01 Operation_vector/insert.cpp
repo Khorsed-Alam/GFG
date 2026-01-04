@@ -22,5 +22,9 @@ int main(){
     for(int val: v1){
         cout<<val<<" ";
     }
+
+
+    cout<<"Element at index 2 using a[]: "<<v1[2]<<endl;
+    cout<<"Element at index 4 using at(): "<<v1.at(4)<<endl;
     return 0;
 }
