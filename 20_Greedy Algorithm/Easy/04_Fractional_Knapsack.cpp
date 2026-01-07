@@ -1,60 +1,45 @@
 #include <iostream>
-#include<vector>
-#include<algorithm>
+#include <vector>
+#include <algorithm>
 using namespace std;
 
-// Comparison function to sort items based on value/weight ratio
-bool compare(vector<int>& a, vector<int>& b) {
-    double a1 = (1.0 * a[0]) / a[1];
-    double b1 = (1.0 * b[0]) / b[1];
-    return a1 > b1;
+// Sort based on value/weight ratio (descending)
+bool compare(vector<double> &a, vector<double> &b) {
+    return a[2] > b[2];
 }
 
-double fractionalKnapsack(vector<int>& val, vector<int>& wt, int capacity) {
-    int n = val.size();
-    
-    // Create 2D vector to store value and weight
-    // items[i][0] = value, items[i][1] = weight
-    vector<vector<int>> items(n, vector<int>(2));
-    
-    for (int i = 0; i < n; i++) {
-        items[i][0] = val[i];
-        items[i][1] = wt[i];
+// Recursive function
+double knapsack(vector<vector<double>> &items, int capacity, int i) {
+
+    // Base case
+    if (i == items.size() || capacity == 0)
+        return 0;
+
+    // Take full item
+    if (items[i][1] <= capacity) {
+        return items[i][0] + knapsack(items, capacity - items[i][1], i + 1);
     }
-    
-    // Sort items based on value-to-weight ratio in descending order
-    sort(items.begin(), items.end(), compare);
-    
-    double res = 0.0;
-    int currentCapacity = capacity;
-    
-    // Process items in sorted order
-    for (int i = 0; i < n; i++) {
-        
-        // If we can take the entire item
-        if (items[i][1] <= currentCapacity) {
-            res += items[i][0];
-            currentCapacity -= items[i][1];
-        }
-        
-        // Otherwise take a fraction of the item
-        else {
-            res += (1.0 * items[i][0] / items[i][1]) * currentCapacity;
-            
-            // Knapsack is full
-            break; 
-        }
+    // Take fraction
+    else {
+        return items[i][2] * capacity;
     }
-    
-    return res;
 }
 
 int main() {
     vector<int> val = {60, 100, 120};
-    vector<int> wt = {10, 20, 30};
+    vector<int> wt  = {10, 20, 30};
     int capacity = 50;
-    
-    cout << fractionalKnapsack(val, wt, capacity) << endl;
-    
+
+    vector<vector<double>> items;
+
+    // Store value, weight, ratio
+    for (int i = 0; i < val.size(); i++) {
+        items.push_back({(double)val[i], (double)wt[i], (double)val[i] / wt[i]});
+    }
+
+    // Sort using sort()
+    sort(items.begin(), items.end(), compare);
+
+    cout << knapsack(items, capacity, 0);
     return 0;
 }
